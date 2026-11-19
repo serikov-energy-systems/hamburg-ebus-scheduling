@@ -1,0 +1,511 @@
+{
+ "scenarios": [
+  [
+   0.8729476351351352,
+   0.20012019230769232
+  ],
+  [
+   0.9692372244488977,
+   0.2998798076923077
+  ],
+  [
+   1.0546774799599197,
+   0.2998798076923077
+  ],
+  [
+   1.1409399999999998,
+   0.1502403846153846
+  ],
+  [
+   1.2557341867469876,
+   0.049879807692307696
+  ]
+ ],
+ "mean_factor": 1.0156766451322115,
+ "design": {
+  "S": [
+   {
+    "design_factor": 0.9,
+    "vehicles": 10,
+    "sites": 1,
+    "charge_points": 1,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1425.5199758125411,
+    "exp_shortfall_kwh": 18.106379920096384,
+    "exp_cost": 1470.7859256127822,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     34.50874156199783,
+     259.05820236796296
+    ]
+   },
+   {
+    "design_factor": 1.0156766451322115,
+    "vehicles": 11,
+    "sites": 1,
+    "charge_points": 1,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1545.5199758125411,
+    "exp_shortfall_kwh": 46.633208384902204,
+    "exp_cost": 1662.1029967747966,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     6.819569669019611,
+     142.10996894284057,
+     465.8698946015221
+    ]
+   },
+   {
+    "design_factor": 1.1,
+    "vehicles": 10,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1515.5199758125411,
+    "exp_shortfall_kwh": 1.6627826822536314,
+    "exp_cost": 1519.6769325181751,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     33.33578775024147
+    ]
+   },
+   {
+    "design_factor": 1.2,
+    "vehicles": 11,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1635.5199758125411,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 1635.5199758125411,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.3,
+    "vehicles": 10,
+    "sites": 2,
+    "charge_points": 3,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1645.5199758125411,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 1645.5199758125411,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.4,
+    "vehicles": 10,
+    "sites": 2,
+    "charge_points": 3,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1645.5199758125411,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 1645.5199758125411,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.5,
+    "vehicles": 10,
+    "sites": 2,
+    "charge_points": 3,
+    "deadhead_km": 65.78510730891271,
+    "cost": 1645.5199758125411,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 1645.5199758125411,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  ],
+  "T": [
+   {
+    "design_factor": 0.9,
+    "vehicles": 5,
+    "sites": 0,
+    "charge_points": 0,
+    "deadhead_km": 13.325197372356921,
+    "cost": 619.3481865846622,
+    "exp_shortfall_kwh": 85.62323602288225,
+    "exp_cost": 833.4062766418679,
+    "per_scenario_kwh": [
+     0.0,
+     19.879492276700905,
+     100.79245802978501,
+     201.35654261979994,
+     384.60995041192314
+    ]
+   },
+   {
+    "design_factor": 1.0156766451322115,
+    "vehicles": 6,
+    "sites": 0,
+    "charge_points": 0,
+    "deadhead_km": 13.325197372356921,
+    "cost": 739.3481865846622,
+    "exp_shortfall_kwh": 29.866188148518898,
+    "exp_cost": 814.0136569559595,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     13.632529506259655,
+     90.87326215571429,
+     243.08902791064224
+    ]
+   },
+   {
+    "design_factor": 1.1,
+    "vehicles": 5,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 13.325197372356921,
+    "cost": 839.3481865846622,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 839.3481865846622,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.2,
+    "vehicles": 5,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 13.325197372356921,
+    "cost": 839.3481865846622,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 839.3481865846622,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.3,
+    "vehicles": 5,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 13.325197372356921,
+    "cost": 839.3481865846622,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 839.3481865846622,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.4,
+    "vehicles": 5,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 13.325197372356921,
+    "cost": 839.3481865846622,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 839.3481865846622,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.5,
+    "vehicles": 5,
+    "sites": 1,
+    "charge_points": 2,
+    "deadhead_km": 13.325197372356921,
+    "cost": 839.3481865846622,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 839.3481865846622,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  ],
+  "M": [
+   {
+    "design_factor": 0.9,
+    "vehicles": 27,
+    "sites": 1,
+    "charge_points": 3,
+    "deadhead_km": 342.2626875807995,
+    "cost": 4046.965422367321,
+    "exp_shortfall_kwh": 219.84106614893017,
+    "exp_cost": 4596.568087739646,
+    "per_scenario_kwh": [
+     0.0,
+     26.05681865507718,
+     201.82913220778175,
+     596.7601962365295,
+     1239.8842835195278
+    ]
+   },
+   {
+    "design_factor": 1.0156766451322115,
+    "vehicles": 28,
+    "sites": 1,
+    "charge_points": 4,
+    "deadhead_km": 390.04336869842905,
+    "cost": 4326.342971350119,
+    "exp_shortfall_kwh": 43.66439069769902,
+    "exp_cost": 4435.503948094367,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     23.772381398791705,
+     128.12831735073505,
+     346.54275259385963
+    ]
+   },
+   {
+    "design_factor": 1.1,
+    "vehicles": 28,
+    "sites": 2,
+    "charge_points": 6,
+    "deadhead_km": 306.14567719389566,
+    "cost": 4424.523523285537,
+    "exp_shortfall_kwh": 3.3873353214975426,
+    "exp_cost": 4432.99186158928,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     67.90995150568567
+    ]
+   },
+   {
+    "design_factor": 1.2,
+    "vehicles": 27,
+    "sites": 3,
+    "charge_points": 7,
+    "deadhead_km": 350.96249025472594,
+    "cost": 4499.597535849863,
+    "exp_shortfall_kwh": 0.7126549844875686,
+    "exp_cost": 4501.379173311082,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     14.287444508280892
+    ]
+   },
+   {
+    "design_factor": 1.3,
+    "vehicles": 27,
+    "sites": 4,
+    "charge_points": 8,
+    "deadhead_km": 337.1986445237468,
+    "cost": 4609.61243184848,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 4609.61243184848,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.4,
+    "vehicles": 27,
+    "sites": 4,
+    "charge_points": 8,
+    "deadhead_km": 325.30562961905486,
+    "cost": 4592.343774206868,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 4592.343774206868,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.5,
+    "vehicles": 27,
+    "sites": 4,
+    "charge_points": 8,
+    "deadhead_km": 330.2642928028983,
+    "cost": 4599.543753149808,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 4599.543753149808,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  ],
+  "L": [
+   {
+    "design_factor": 0.9,
+    "vehicles": 125,
+    "sites": 9,
+    "charge_points": 26,
+    "deadhead_km": 3103.789890296532,
+    "cost": 22206.702920710566,
+    "exp_shortfall_kwh": 628.9277090387322,
+    "exp_cost": 23779.022193307395,
+    "per_scenario_kwh": [
+     0.0,
+     77.47851349598247,
+     592.4332458409178,
+     1607.999052617386,
+     3737.9515274336227
+    ]
+   },
+   {
+    "design_factor": 1.0156766451322115,
+    "vehicles": 127,
+    "sites": 13,
+    "charge_points": 30,
+    "deadhead_km": 2979.8849901323947,
+    "cost": 22786.793005672236,
+    "exp_shortfall_kwh": 219.80564503137168,
+    "exp_cost": 23336.307118250665,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     58.13663861490909,
+     587.1761099969714,
+     2288.582929688193
+    ]
+   },
+   {
+    "design_factor": 1.1,
+    "vehicles": 127,
+    "sites": 17,
+    "charge_points": 43,
+    "deadhead_km": 2994.756474213889,
+    "cost": 24138.386400558567,
+    "exp_shortfall_kwh": 56.33384162608414,
+    "exp_cost": 24279.221004623778,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     68.90776428889838,
+     921.8382095611977
+    ]
+   },
+   {
+    "design_factor": 1.2,
+    "vehicles": 133,
+    "sites": 16,
+    "charge_points": 37,
+    "deadhead_km": 3083.740443463126,
+    "cost": 24407.59112390846,
+    "exp_shortfall_kwh": 14.99940820669479,
+    "exp_cost": 24445.089644425196,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     300.71102718000157
+    ]
+   },
+   {
+    "design_factor": 1.3,
+    "vehicles": 134,
+    "sites": 18,
+    "charge_points": 39,
+    "deadhead_km": 3137.876816728408,
+    "cost": 24866.19713788965,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 24866.19713788965,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.4,
+    "vehicles": 131,
+    "sites": 19,
+    "charge_points": 47,
+    "deadhead_km": 3214.5827834908305,
+    "cost": 25377.574201628686,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 25377.574201628686,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "design_factor": 1.5,
+    "vehicles": 130,
+    "sites": 19,
+    "charge_points": 45,
+    "deadhead_km": 3154.872004034425,
+    "cost": 24990.874149857984,
+    "exp_shortfall_kwh": 0.0,
+    "exp_cost": 24990.874149857984,
+    "per_scenario_kwh": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  ]
+ }
+}

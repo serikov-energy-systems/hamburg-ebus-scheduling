@@ -1,0 +1,31 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[test]"
+      - run: pytest -q
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t ebus-service .
+      - name: Start container and schedule the small instance
+        run: |
+          docker run -d --name ebus -p 8000:8000 ebus-service
+          for i in $(seq 1 30); do curl -sf http://localhost:8000/health && break; sleep 2; done
+          curl -sf http://localhost:8000/health
+          curl -sf -X POST http://localhost:8000/schedule -H 'content-type: application/json' \
+            -d '{"instance":"T","method":"alns","time_limit":5}' | python -c "import sys,json; d=json.load(sys.stdin); print(d['cost_eur_per_day']); assert d['cost_eur_per_day']['vehicles'] >= d['unlimited_range_fleet']"

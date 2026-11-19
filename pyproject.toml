@@ -1,0 +1,16 @@
+[project]
+name = "ebus"
+version = "0.1.0"
+description = "Electric bus scheduling and charging for Hamburg bus lines: MILP, CP-SAT and ALNS, with uncertain consumption"
+requires-python = ">=3.11"
+dependencies = ["numpy", "pandas", "scipy", "ortools", "matplotlib", "fastapi", "uvicorn", "pydantic"]
+
+[project.optional-dependencies]
+test = ["pytest", "httpx"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -90,14 +90,72 @@ uvicorn ebus.service:app
 - `POST /schedule` with `{"instance": "T", "method": "alns", "time_limit": 20, "consumption_factor": 1.1, "scenarios": true}` returns blocks, cost breakdown, validation result and (optionally) cost over the winter scenarios. Method `alns`, `cpsat` or `milp`; custom instances can be posted as JSON; limits: 3,000 trips, MILP up to 400 trips, time limit up to 120 s.
 - `Dockerfile` (python:3.12-slim). The image is built and run in GitHub Actions (`.github/workflows/tests.yml`); I did not run Docker locally.
 
+## v0.3: learned guidance for ALNS (bandit and surrogate)
+
+Can machine learning make the search cheaper or better without changing what is accepted? `src/ebus/guided.py` adds two
+learned components to the ALNS of `alns.py`: **(1) a bandit** (discounted UCB1 on the relative cost improvement of each
+operator) instead of the adaptive weights, and **(2) a gradient-boosting surrogate** that predicts the cost change of a
+removal set before it is repaired and costed. Per iteration the search draws 4 cheap removal sets, the surrogate picks
+the one with the best predicted change (a random one with probability 0.1), and that one is repaired and costed by the
+original cost function. The surrogate therefore never accepts or rejects a move; every candidate that is looked at is
+re-costed by `model.cost_breakdown`, and every reported schedule is costed again and checked by `validate.py` outside
+the search. Training data: 9,882 moves logged from ALNS runs on S and M (4 seeds each, 40 and 90 s; features of the
+removal set: operator, size, time span, waits, km, terminals, search phase). Only 0.8% of the moves improve the cost.
+On two held-out runs (one per instance) the correlation of the predicted and the true cost change is 0.72, but the
+ranking of improving moves is weak (AUC 0.64); the signal comes mostly from the size, time span and kilometres of the removal (`scripts/run_guided.py fit`,
+`results/guided_fit.json`).
+
+Comparison (`scripts/run_guided.py compare`): ALNS, bandit, surrogate and bandit + surrogate with the same time budget
+(S, T 30 s; M 60 s; L 120 s), 10 seeds on S, T and M and 3 on L, eight processes in parallel. The surrogate was trained on
+S and M; **T and L were never seen in training**.
+
+| Instance | ALNS mean (sd) | Bandit | Surrogate | Bandit + surrogate |
+|---|---|---|---|---|
+| S (trained on) | 1,534 (99) | 1,528 (-0.4%) | 1,483 (-3.3%, p 0.19) | 1,522 (-0.8%) |
+| M (trained on) | 4,409 (66), 9 valid runs | 4,413 (+0.1%) | **4,315 (-2.1%, p 0.01)** | 4,362 (-1.1%, p 0.15) |
+| T (unseen) | 793 (49) | 821 (+3.5%) | 790 (-0.4%) | 812 (+2.4%) |
+| L (unseen, 3 runs) | 23,813 (132) | 23,697 (-0.5%) | 23,771 (-0.2%) | 23,785 (-0.1%) |
+
+Daily cost in EUR (assumed unit costs); the percentages are against ALNS, p from a two-sided Mann-Whitney test on the
+runs of one instance (`results/guided_summary.csv`).
+
+![Cost by method](results/fig_guided.png)
+
+**Findings**
+
+- **Small gains from the surrogate, only where it was trained.** On M the surrogate variant is 2.1% better than ALNS (p 0.01
+  for that comparison; with twelve comparisons in the table this is not a result that survives a correction for
+  multiple tests). On S it is 3.3% better but within the spread (p 0.19). On the two instances not used for training
+  there is no effect: T -0.4%, L -0.2% (3 runs).
+- **The bandit alone does not help.** It is level with the adaptive weights on S and M, 3.5% worse on T (not significant)
+  and 0.5% better on L (3 runs). Combined with the surrogate it is worse than the surrogate alone on every instance.
+- **The surrogate finds improving moves only sometimes.** Of the moves it predicted to improve the cost, 10.7% did on M
+  (19 of 177) and 17.5% on L (27 of 154), against 0.8% of all moves in the training data; on S 1.1% (2 of 174) and on T none
+  of 1,704. So it separates moves on the instance it was trained on and on L, and not on T. Why T differs (two terminals, 239
+  trips, long depot chains) was not investigated.
+- **The surrogate variants run more iterations in the same time** (M: 916 against 747 for the bandit; the number of
+  iterations of the original ALNS was not recorded). Part of the gain may come from cheaper moves, not from better moves;
+  this was not separated.
+- **A defect of the v0.1 search was found.** One original ALNS run on M (seed 6, cost 4,286) is not a valid schedule: block 16
+  has a battery shortfall of 10.1 kWh in the independent simulation (`results/guided_invalid_runs.csv`). The run repeats
+  exactly. The planner of a block (`plan_block`) and the simulation of a plan disagree in this case; the cause is not yet
+  found. That run is excluded from the comparison (hence 9 valid runs); all other 131 runs pass the check. In a first batch of the M runs a second run (surrogate, seed 4) also failed the check; it did not recur when all 40 M runs were repeated, and the table uses the repeated batch (S, T and L have one batch). The v0.1 results
+  in the tables above passed the check when they were produced.
+
+What this is not: deep reinforcement learning (the bandit has no state), a trained policy that transfers to another
+network, or a result on another day or city (only the one GTFS day is available, so the transfer test is to other instances
+of the same day). The uncertainty of the comparison is large (3 runs on L, 10 on the others, 4 seeds of training data).
+
 ## Reproduce
 
 ```
 pip install -e .[test]
-pytest                                   # 9 tests
+pytest                                   # 15 tests
 python scripts/build_instances.py        # needs the HVV GTFS feed in data/raw (not in the repo)
 python scripts/run_experiments.py solvers margin evpi    # about 5 to 6 hours on one laptop
 python scripts/make_figures.py
+python scripts/run_guided.py collect fit compare   # v0.3, one stage per call, about 30 minutes on 8 cores
+python scripts/summarise_guided.py
 ```
 
 ## Limits

@@ -71,7 +71,7 @@ Battery levels of the five blocks of one ALNS schedule on T at the design consum
 
 ### Two-stage stochastic program (instance T)
 
-Wait-and-see WS = 625.6 (expected over scenarios). The expected-value plan evaluated over the scenarios (EEV) costs 688.9. The recourse program RP did not finish: after 3,000 s HiGHS stops with an incumbent of 738.4 and a lower bound of 619.3 (gap 16%), and the incumbent is worse than the EEV plan, which is itself a feasible RP solution. So the printed VSS of -49.5 is an artefact of the unfinished solve and I do not report it as a result. What the data support:
+Wait-and-see WS = 625.33 (expected over scenarios). The expected-value plan evaluated over the scenarios (EEV) costs 688.9. The recourse program RP did not finish: after 3,000 s HiGHS stops with an incumbent of 738.4 and a lower bound of 619.3 (gap 16%), and the incumbent is worse than the EEV plan, which is itself a feasible RP solution. So the printed VSS of -49.5 is an artefact of the unfinished solve and I do not report it as a result. What the data support:
 
 - RP lies between 619.3 (bound; WS 625.6 is a tighter lower bound) and 688.9 (EEV plan).
 - Before the decomposition: VSS = EEV - RP between 0 and 63; EVPI = RP - WS between 0 and 63 (see the paragraph below for the narrower ranges).

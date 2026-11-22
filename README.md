@@ -74,10 +74,10 @@ Battery levels of the five blocks of one ALNS schedule on T at the design consum
 Wait-and-see WS = 625.6 (expected over scenarios). The expected-value plan evaluated over the scenarios (EEV) costs 688.9. The recourse program RP did not finish: after 3,000 s HiGHS stops with an incumbent of 738.4 and a lower bound of 619.3 (gap 16%), and the incumbent is worse than the EEV plan, which is itself a feasible RP solution. So the printed VSS of -49.5 is an artefact of the unfinished solve and I do not report it as a result. What the data support:
 
 - RP lies between 619.3 (bound; WS 625.6 is a tighter lower bound) and 688.9 (EEV plan).
-- VSS = EEV - RP is between 0 and 63; EVPI = RP - WS is between 0 and 63.
+- Before the decomposition: VSS = EEV - RP between 0 and 63; EVPI = RP - WS between 0 and 63 (see the paragraph below for the narrower ranges).
 - The emergency energy expected with the EEV plan is 0, 0, 15.7, 85.7 and 204.9 kWh in the five scenarios (coldest scenario last).
 
-A tighter statement needs a longer solve or a decomposition; I did not run one.
+**L-shaped decomposition (`src/ebus/lshaped.py`, `scripts/run_lshaped.py`).** The second stage is a linear program for a fixed first stage, so the recourse problem can be solved by a multi-cut L-shaped method: an integer master problem over the first stage with one recourse variable per scenario, optimality cuts from the dual solutions of the five scenario programs, and an exact upper bound from every first-stage plan tried. The first cut reproduces the EEV value 688.89 exactly, which checks the recourse program against the full MILP. After 10 iterations (2.3 hours; the run continues) the best plan found costs 635.80 (upper bound on RP, exact) and the wait-and-see value 625.35 is a lower bound (the master bound is 619.35 and lower). This narrows the earlier ranges: RP is between 625.35 and 635.80 (gap 1.6%), VSS = EEV - RP between 53.1 and 63.5, EVPI = RP - WS between 0 and 10.5. Not yet solved to optimality: the master problem has many equivalent first-stage plans and the bound has not moved in the last iterations.
 
 ## Service
 

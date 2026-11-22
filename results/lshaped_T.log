@@ -1,0 +1,60 @@
+trips 239 scenarios [(0.873, 0.2), (0.969, 0.3), (1.055, 0.3), (1.141, 0.15), (1.256, 0.05)]
+deterministic solves 1569 s; EV 619.3481865846625 WS [619.3, 619.3, 619.3, 619.3, 739.3]
+seed cut: ub 688.89  best 688.89  (407 s)
+seed cut: ub 697.45  best 688.89  (816 s)
+seed cut: ub 728.63  best 688.89  (1198 s)
+seed cut: ub 659.77  best 659.77  (1612 s)
+seed cut: ub 635.80  best 635.80  (1974 s)
+seed cut: ub 739.35  best 635.80  (2374 s)
+iter 1: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (2922 s)
+iter 2: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (3541 s)
+iter 3: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (4224 s)
+iter 4: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (4821 s)
+iter 5: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (5381 s)
+iter 6: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (6022 s)
+iter 7: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (6506 s)
+iter 8: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (7058 s)
+iter 9: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (7624 s)
+iter 10: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (8183 s)
+iter 11: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (8645 s)
+iter 12: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (9040 s)
+iter 13: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (9435 s)
+iter 14: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (9829 s)
+iter 15: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (10227 s)
+iter 16: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (10631 s)
+iter 17: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (11026 s)
+iter 18: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (11417 s)
+iter 19: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (11815 s)
+iter 20: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (12207 s)
+iter 21: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (12596 s)
+iter 22: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (12986 s)
+iter 23: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (13378 s)
+iter 24: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (13765 s)
+iter 25: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (14156 s)
+iter 26: lb 619.35 ub 635.80 gap 2.59%  master 619.35  (14544 s)
+{
+  "trips": 239,
+  "WS": 625.3337635077389,
+  "EV_deterministic": 619.3481865846625,
+  "EEV": 688.8936976088764,
+  "RP_upper": 635.7976591128659,
+  "RP_lower": 619.3481865846622,
+  "gap": 0.025872181648412658,
+  "VSS_range": [
+    53.09603849601058,
+    69.54551102421419
+  ],
+  "EVPI_range": [
+    -5.985576923076678,
+    10.463895605126936
+  ],
+  "first_stage_cost_RP": 619.3481865846622,
+  "recourse_by_scenario_RP": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    16.44947252820363
+  ],
+  "iterations": 26
+}

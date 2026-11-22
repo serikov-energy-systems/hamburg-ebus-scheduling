@@ -1,0 +1,37 @@
+trips 60 scenarios [(2.095, 0.2), (2.326, 0.3), (2.531, 0.3), (2.738, 0.15), (3.014, 0.05)]
+deterministic solves 39 s; EV 625.797582112883 WS [625.8, 625.8, 625.8, 625.8, 625.8]
+seed cut: ub 628.17  best 628.17  (20 s)
+seed cut: ub 628.17  best 628.17  (35 s)
+seed cut: ub 628.17  best 628.17  (48 s)
+seed cut: ub 628.17  best 628.17  (60 s)
+seed cut: ub 626.71  best 626.71  (74 s)
+seed cut: ub 625.80  best 625.80  (92 s)
+iter 1: lb 625.80 ub 625.80 gap 0.00%  master 625.80  (113 s)
+{
+  "trips": 60,
+  "WS": 625.7975821128811,
+  "EV_deterministic": 625.797582112883,
+  "EEV": 628.1719037401629,
+  "RP_upper": 625.797582112883,
+  "RP_lower": 625.797582112883,
+  "gap": 0.0,
+  "VSS_range": [
+    2.374321627279869,
+    2.374321627279869
+  ],
+  "EVPI_range": [
+    1.9326762412674725e-12,
+    1.9326762412674725e-12
+  ],
+  "first_stage_cost_RP": 625.797582112883,
+  "recourse_by_scenario_RP": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "iterations": 1,
+  "full_milp_RP": 625.797582112883,
+  "full_milp_bound": 625.797582112883
+}

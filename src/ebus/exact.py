@@ -60,10 +60,9 @@ def arcs(inst: Instance):
     return D, V
 
 
-def solve_milp(inst: Instance, scenarios=((1.0, 1.0),), time_limit: float = 60.0, mip_gap: float = 1e-4,
-               fix: dict | None = None, first_stage_only_cost: bool = False, log: bool = False):
-    """Solve the (two-stage) program. `scenarios` is a list of (consumption factor, probability).
-    `fix` pins the first stage: {'xd': set of arcs, 'xv': set of arcs, 'ys': set, 'ye': set, 'o': set, 'K': dict}."""
+def build_model(inst: Instance, scenarios=((1.0, 1.0),)):
+    """Variables and rows of the two-stage program. Returns a dict with the variable table W, the row table R, the
+    column offsets and the arc lists. Shared by solve_milp and the L-shaped method (lshaped.py)."""
     p = inst.params
     n = inst.n
     D, V = arcs(inst)
@@ -151,6 +150,18 @@ def solve_milp(inst: Instance, scenarios=((1.0, 1.0),), time_limit: float = 60.0
             R.add([v0 + a, xv + a], [1, -cap], -np.inf, 0)
             M3 = smax - smin + ei + din
             R.add([s0 + i, u0 + i, xv + a], [1, 1, -M3], smin + ei + din - M3, np.inf)
+    return {"W": W, "R": R, "D": D, "V": V, "nd": nd, "nv": nv, "n": n, "xd": xd, "xv": xv, "ys": ys, "ye": ye,
+            "o": o, "K": K, "first_end": first_end, "sv": sv, "qd": qd, "qv": qv, "uu": uu, "p": p}
+
+
+def solve_milp(inst: Instance, scenarios=((1.0, 1.0),), time_limit: float = 60.0, mip_gap: float = 1e-4,
+               fix: dict | None = None, first_stage_only_cost: bool = False, log: bool = False):
+    """Solve the (two-stage) program. `scenarios` is a list of (consumption factor, probability).
+    `fix` pins the first stage: {'xd': set of arcs, 'xv': set of arcs, 'ys': set, 'ye': set, 'o': set, 'K': dict}."""
+    M_ = build_model(inst, scenarios)
+    W, R, D, V, nd, nv, n, xd, xv, ys, ye, o, K, sv, qd, qv, uu = (M_[k] for k in (
+        "W", "R", "D", "V", "nd", "nv", "n", "xd", "xv", "ys", "ye", "o", "K", "sv", "qd", "qv", "uu"))
+    S = len(scenarios)
     lb = np.array(W.lb, float)
     ub = np.array(W.ub, float)
     if fix is not None:

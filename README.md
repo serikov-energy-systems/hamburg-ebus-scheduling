@@ -146,6 +146,50 @@ What this is not: deep reinforcement learning (the bandit has no state), a train
 network, or a result on another day or city (only the one GTFS day is available, so the transfer test is to other instances
 of the same day). The uncertainty of the comparison is large (3 runs on L, 10 on the others, 4 seeds of training data).
 
+## v0.4: vehicle routing with time windows, ALNS kernel in C++ (24 November 2026)
+
+The ALNS of this project is also built as a stand-alone solver for the classic vehicle routing problem with time windows (VRPTW), so that the search can be measured against a public benchmark with known best values. `src/vrptw/` has the algorithm twice (pure Python as the reference, C++17 with pybind11 as the fast kernel), exact methods for small instances, a service with run telemetry and the 56 Solomon instances (100 customers each, `data/solomon/`).
+
+| Part | File | Notes |
+|---|---|---|
+| ALNS, Python | `src/vrptw/alns_py.py` | destroy: random, worst detour, Shaw (related customers), smallest route; repair: greedy and regret-2; adaptive operator weights; simulated-annealing acceptance; cost = distance + 10,000 per vehicle (fewer vehicles first, as in the benchmark) |
+| ALNS, C++17 | `src/vrptw/cpp/alns_core.cpp` | the same algorithm; cached service-start and latest-start times make the feasibility test of one insertion position O(1) (`fast`, default) instead of a walk along the route (`naive`); exposed with pybind11; optional build (`setup.py`), the package works without it |
+| Exact methods | `src/vrptw/exact.py` | two-index MIP with arrival-time and load variables in Pyomo with HiGHS and the same model in PySCIPOpt; CP-SAT with a multiple-circuit constraint |
+| Checker | `src/vrptw/instance.py` | independent feasibility check (every customer once, capacity, time windows, depot due date) used on every solution in tests and benchmarks |
+| Service | `src/vrptw/service.py` | `POST /solve`, `GET /metrics` (latency percentiles, vehicles, infeasible runs), `GET /health`; limits on iterations and size; optional JSON-lines log (`VRPTW_LOG`) |
+| Benchmarks | `scripts/run_vrptw_bench.py`, `scripts/run_vrptw_profile.py` | results in `results/vrptw/` |
+
+**Exact methods against the ALNS.** On the first 8, 10 and 12 customers of C101, R101, RC101, C201, R201 and RC201 (18 instances) the three exact methods return the same optimum in every case and all prove it within the 30 s limit (largest time 3.3 s); the ALNS (three seeds, 2,000 iterations) finds the optimum in all 18 cases on all three seeds. These are small instances: the MIP is only practical up to about ten customers, which is the reason for the subsets (`results/vrptw/exact_small.csv`).
+
+**Speed.** On C101, R101 and RC101 (100 iterations, one seed, quiet machine) the Python version needs 49 to 55 ms per iteration and the C++ kernel 0.32 to 0.33 ms: a factor of 154 to 166 (`results/vrptw/speed.json`). Inside C++, the O(1) insertion test is 1.8 to 4.7 times faster than the naive test (median 4.0; 6 instances, 3 seeds each, 500 iterations) and returns the same routes for every seed (`results/vrptw/profile.json`). In the naive version 52 to 70% of the time is spent in the feasibility test (own timers around the test, which add some overhead), in the fast version 46 to 47%; the rest is the cost of the insertion position search and of rebuilding the cached times of a changed route. No external profiler was used.
+
+**All 56 Solomon instances** (4,000 iterations, 3 seeds, 3.5 s per run on average; every solution passes the independent checker; `results/vrptw/solomon_full.csv`). Best of three seeds against the best known solutions of the SINTEF table (vehicles first, then distance):
+
+| Class | Instances | Same vehicles as best known | Mean extra vehicles | Mean distance gap where the vehicles match |
+|---|---|---|---|---|
+| C1 | 9 | 9 | 0 | 0.00% |
+| C2 | 8 | 8 | 0 | 5.15% |
+| R1 | 12 | 3 | 0.75 | 0.58% |
+| R2 | 11 | 7 | 0.36 | 3.44% |
+| RC1 | 8 | 2 | 0.88 | 0.65% |
+| RC2 | 8 | 5 | 0.38 | 5.39% |
+| All | 56 | 34 | 0.41 | median 0.17% over the 34 (15 of them within 0.01%) |
+
+So the search is solid on clustered instances with short horizons and weaker where the vehicle count is hard to reach (R1, RC1: one vehicle more on 18 of 20 instances) and on long-route instances (C2, RC2 gaps of about 5% in distance). It is far from state-of-the-art solvers; more iterations or a route-elimination phase would be the next step and were not tried.
+
+Notes on the data: the instance files come from the public `py-ga-VRPTW` repository (not from the official site; the distance of C101 reaches the best known 828.94 and every file has 100 customers and a depot, but the files were not compared byte by byte with the official ones). The best known values are copied from the SINTEF table (read on 24 Nov 2026); for R111, R205 and RC101 the table lines carry footnotes (R205 and RC101 have a second value with a letter suffix) and the values used are 1096.73, 994.43 and 1696.95, which may be slightly looser than the footnoted ones. Distances are real numbers in double precision, as in the SINTEF table, so other papers that round distances are not directly comparable.
+
+**Build and run.** The C++ kernel needs a compiler: on Linux (and in the CI job) `pip install -e ".[test]" pybind11 pyscipopt pyomo highspy` builds it, on Windows without a compiler the package falls back to the Python version. Here it was built and benchmarked with g++ 13.3 in WSL Ubuntu.
+```
+pytest -q tests/test_vrptw.py            # 10 tests
+python scripts/run_vrptw_bench.py exact | speed | full | quick
+python scripts/run_vrptw_profile.py
+uvicorn vrptw.service:app --port 8010    # then POST /solve {"instance": "C101", "iterations": 2000}
+```
+The CI job `vrptw` builds the kernel on Linux, runs the tests and stores the time and quality of six benchmark runs as an artifact (`ci_quick.json`).
+
+Not done: no column generation or branch-and-price (exact methods stop at about ten customers); no Gurobi or CPLEX (not used); no real operator data; the service is a local demonstration, not a production deployment (the Docker image in this repository serves the bus scheduling endpoint, not the VRPTW service).
+
 ## Reproduce
 
 ```

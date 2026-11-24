@@ -1,0 +1,50 @@
+[
+ {
+  "instance": "C101",
+  "vehicles": 10,
+  "distance": 828.94,
+  "bks_vehicles": 10,
+  "bks_distance": 828.94,
+  "ms": 438
+ },
+ {
+  "instance": "C201",
+  "vehicles": 3,
+  "distance": 591.56,
+  "bks_vehicles": 3,
+  "bks_distance": 591.56,
+  "ms": 1538
+ },
+ {
+  "instance": "R101",
+  "vehicles": 19,
+  "distance": 1672.29,
+  "bks_vehicles": 19,
+  "bks_distance": 1650.8,
+  "ms": 468
+ },
+ {
+  "instance": "R201",
+  "vehicles": 5,
+  "distance": 1272.64,
+  "bks_vehicles": 4,
+  "bks_distance": 1252.37,
+  "ms": 1034
+ },
+ {
+  "instance": "RC101",
+  "vehicles": 16,
+  "distance": 1666.89,
+  "bks_vehicles": 14,
+  "bks_distance": 1696.95,
+  "ms": 440
+ },
+ {
+  "instance": "RC201",
+  "vehicles": 4,
+  "distance": 1460.61,
+  "bks_vehicles": 4,
+  "bks_distance": 1406.94,
+  "ms": 926
+ }
+]

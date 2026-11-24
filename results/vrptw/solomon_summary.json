@@ -1,0 +1,50 @@
+{
+ "C1": {
+  "instances": 9,
+  "runs": 27,
+  "best_of_seeds_matching_bks_vehicles": 9,
+  "best_of_seeds_mean_extra_vehicles": 0,
+  "mean_gap_pct_where_vehicles_match": 0.0,
+  "mean_ms_per_run": 3368
+ },
+ "C2": {
+  "instances": 8,
+  "runs": 24,
+  "best_of_seeds_matching_bks_vehicles": 8,
+  "best_of_seeds_mean_extra_vehicles": 0,
+  "mean_gap_pct_where_vehicles_match": 5.153,
+  "mean_ms_per_run": 3933
+ },
+ "R1": {
+  "instances": 12,
+  "runs": 36,
+  "best_of_seeds_matching_bks_vehicles": 3,
+  "best_of_seeds_mean_extra_vehicles": 0.75,
+  "mean_gap_pct_where_vehicles_match": 0.581,
+  "mean_ms_per_run": 3554
+ },
+ "R2": {
+  "instances": 11,
+  "runs": 33,
+  "best_of_seeds_matching_bks_vehicles": 7,
+  "best_of_seeds_mean_extra_vehicles": 0.364,
+  "mean_gap_pct_where_vehicles_match": 3.444,
+  "mean_ms_per_run": 3200
+ },
+ "RC1": {
+  "instances": 8,
+  "runs": 24,
+  "best_of_seeds_matching_bks_vehicles": 2,
+  "best_of_seeds_mean_extra_vehicles": 0.875,
+  "mean_gap_pct_where_vehicles_match": 0.652,
+  "mean_ms_per_run": 3351
+ },
+ "RC2": {
+  "instances": 8,
+  "runs": 24,
+  "best_of_seeds_matching_bks_vehicles": 5,
+  "best_of_seeds_mean_extra_vehicles": 0.375,
+  "mean_gap_pct_where_vehicles_match": 5.392,
+  "mean_ms_per_run": 3378
+ }
+}

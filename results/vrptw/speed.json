@@ -1,0 +1,32 @@
+{
+ "rows": [
+  {
+   "instance": "C101",
+   "iterations": 100,
+   "python_ms": 4865.2,
+   "cpp_ms": 31.6,
+   "speedup": 154.0,
+   "python_ms_per_iteration": 48.65,
+   "cpp_ms_per_iteration": 0.316
+  },
+  {
+   "instance": "R101",
+   "iterations": 100,
+   "python_ms": 5090.6,
+   "cpp_ms": 32.5,
+   "speedup": 156.5,
+   "python_ms_per_iteration": 50.91,
+   "cpp_ms_per_iteration": 0.325
+  },
+  {
+   "instance": "RC101",
+   "iterations": 100,
+   "python_ms": 5534.9,
+   "cpp_ms": 33.4,
+   "speedup": 165.8,
+   "python_ms_per_iteration": 55.35,
+   "cpp_ms_per_iteration": 0.334
+  }
+ ],
+ "median_speedup": 156.5
+}

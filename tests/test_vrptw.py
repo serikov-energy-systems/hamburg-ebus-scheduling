@@ -61,6 +61,7 @@ def test_cpp_is_much_faster_than_python():
 
 
 def test_exact_methods_agree_and_alns_matches_the_optimum():
+    pytest.importorskip("pyscipopt")
     I = ins.load("R101").subset(8)
     a, b = exact.solve_cpsat(I, 30), exact.solve_scip(I, 30)
     assert a["optimal"] and b["optimal"]

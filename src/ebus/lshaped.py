@@ -82,7 +82,7 @@ class Problem:
 
 
 def lshaped(inst: Instance, scenarios, seeds=(), time_limit: float = 7200.0, master_time: float = 900.0,
-            gap: float = 0.005, log=print):
+            gap: float = 0.005, log=print, lp_iters: int = 0):
     """seeds: first-stage plans (dicts as returned by solve_milp) used to create the initial cuts."""
     t0 = time.time()
     P = Problem(inst, scenarios)
@@ -105,7 +105,7 @@ def lshaped(inst: Instance, scenarios, seeds=(), time_limit: float = 7200.0, mas
             x[M["K"] + k] = fs["K"].get(k, 0)
         return x
 
-    def add_cuts(x):
+    def add_cuts(x, record=True):
         c1, qs, gs = P.total(x)
         ub = c1 + sum(qs)
         for w in range(S):
@@ -113,7 +113,7 @@ def lshaped(inst: Instance, scenarios, seeds=(), time_limit: float = 7200.0, mas
                                  sparse.csr_matrix(([1.0], ([0], [w])), shape=(1, S))]).tocsr()
             cuts_A.append(row)
             cuts_lo.append(qs[w] - float(gs[w] @ x))
-        if ub < best["ub"]:
+        if record and ub < best["ub"]:
             best.update(ub=ub, x=x.copy(), first=c1, q=qs)
         return ub
 
@@ -127,6 +127,27 @@ def lshaped(inst: Instance, scenarios, seeds=(), time_limit: float = 7200.0, mas
     base_rows = sparse.hstack([first_rows, sparse.csr_matrix((first_rows.shape[0], S))]).tocsr()
     base_lo, base_hi = P.lo[P.rows_first], P.hi[P.rows_first]
     lb_best, it = 0.0, 0
+    # phase 1 (lp_iters > 0): Benders cuts at the optimum of the LP relaxation of the master. The relaxed master is cheap, its bound is a valid lower bound
+    # of RP, and the cuts generated at fractional first-stage points are carried into the integer master of phase 2 (cuts are valid for all x).
+    # The cost of a fractional x is not the cost of a plan, so phase 1 never updates the upper bound.
+    lp_lb = 0.0
+    for k in range(lp_iters):
+        if time.time() - t0 > 0.4 * time_limit:
+            break
+        A = sparse.vstack([base_rows] + cuts_A).tocsr()
+        lo = np.concatenate([base_lo, cuts_lo]); hi = np.concatenate([base_hi, np.full(len(cuts_lo), np.inf)])
+        r1 = milp(cost_m, constraints=LinearConstraint(A, lo, hi), integrality=np.zeros_like(integ), bounds=Bounds(lb_m, ub_m))
+        if r1.x is None:
+            break
+        add_cuts(r1.x[:nf], record=False)
+        improved = r1.fun - lp_lb
+        lp_lb = max(lp_lb, float(r1.fun))
+        if k % 10 == 0:
+            log(f"LP phase iter {k}: relaxed master bound {lp_lb:.2f}  cuts {len(cuts_lo)}  ({time.time() - t0:.0f} s)")
+        if k > 20 and improved < 1e-5 * max(lp_lb, 1.0):
+            break
+    lb_best = lp_lb
+    log(f"LP phase finished: relaxed bound {lp_lb:.2f} (best plan so far {best['ub']:.2f})")
     while time.time() - t0 < time_limit:
         it += 1
         A = sparse.vstack([base_rows] + cuts_A).tocsr()

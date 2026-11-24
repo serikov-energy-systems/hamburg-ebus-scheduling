@@ -24,6 +24,7 @@ ap.add_argument("--time", type=float, default=7200)
 ap.add_argument("--master-time", type=float, default=900)
 ap.add_argument("--stress", type=float, default=1.0, help="multiply the consumption factors (forces emergency energy in small tests)")
 ap.add_argument("--battery-scale", type=float, default=1.0, help="scale the usable battery energy (small tests with real recourse)")
+ap.add_argument("--lp-iters", type=int, default=0, help="Benders cuts at LP-relaxed master optima before the integer master (phase 1)")
 ap.add_argument("--check", action="store_true", help="also solve the full two-stage MILP (small instances only)")
 a = ap.parse_args()
 
@@ -44,7 +45,7 @@ sols = Parallel(n_jobs=len(jobs))(delayed(solve_milp)(inst, j, time_limit=1200, 
 ev, ws = sols[0], sols[1:]
 print("deterministic solves", round(time.time() - t0), "s; EV", ev["objective"], "WS", [round(w["objective"], 1) for w in ws], flush=True)
 seeds = [s["first_stage"] for s in sols]
-r = lshaped(inst, scen, seeds=seeds, time_limit=a.time, master_time=a.master_time)
+r = lshaped(inst, scen, seeds=seeds, time_limit=a.time, master_time=a.master_time, lp_iters=a.lp_iters)
 ws_val = sum(p * w["objective"] for (f, p), w in zip(scen, ws))
 # EEV: first stage of the expected-value plan, exact recourse
 x_ev = None
